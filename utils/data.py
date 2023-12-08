@@ -39,4 +39,6 @@ class DataReader:
 
     @staticmethod
     def convert_to_metre(data):
-        return data / 1000
+        modified_data = data / 1000
+        modified_data[:, 0] = data[:, 0]
+        return modified_data
