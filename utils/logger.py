@@ -1,3 +1,4 @@
+import numpy as np
 from utils.constants import Constants
 
 
@@ -8,7 +9,7 @@ class Logger:
         print("----------")
         print(data)
         print("----------")
-        
+
     @staticmethod
     def log_data_points(data, *args, **kwargs):
         print("----------")
@@ -16,9 +17,23 @@ class Logger:
         print("----------")
 
     @staticmethod
-    def log_initial_depth_variance(*args):
+    def log_initial_depth_variance(transposed_data, *args):
         print("----------")
         print(f"Initial depth value: {Constants.INITIAL_DEPTH}")
         print("Sensor data variance:")
-        [print(sensor_var) for sensor_var in args]
+        sensor_vars = [np.var(transposed_data[i]) for i in range(len(transposed_data))]
+        [print(sensor_var) for sensor_var in sensor_vars]
         print("----------")
+
+    @staticmethod
+    def log_max_height(max_heights):
+        print("----------")
+        print("Max heights:")
+        for max_height in max_heights:
+            print(f"x: {max_height[0]}, y: {max_height[1]}")
+        print("----------")
+
+    @staticmethod
+    def log_exception(exception):
+        print("xxxxxxxxxxxx")
+        print(f"Failed to run script: {exception}")
