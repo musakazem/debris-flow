@@ -3,14 +3,18 @@ import numpy as np
 
 class DataManager:
 
-    def __init__(self, path, columns, max_rows=1000, skip_header=1) -> None:
+    def __init__(self, path, columns, max_rows=1000, skip_header=0, metre_conversion=True):
         self.path = path
         self.columns = columns
         self.max_rows = max_rows
         self.skip_header = skip_header
+        self.metre_conversion = metre_conversion
 
     def get_data(self, avg_depth=None):
-        data = self.convert_to_metre(self.read_data())
+        data = self.read_data()
+        if self.metre_conversion:
+            data = self.convert_to_metre(data)
+
         if not avg_depth:
             return data
 
@@ -42,5 +46,10 @@ class DataManager:
     @staticmethod
     def convert_to_metre(data):
         modified_data = data / 1000
-        modified_data[:, 0] = data[:, 0]
+
+        try:  # TODO: Find a solution for this!!
+            modified_data[:, 0] = data[:, 0]
+        except Exception:
+            pass
+
         return modified_data

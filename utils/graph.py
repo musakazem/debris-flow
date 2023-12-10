@@ -1,24 +1,39 @@
 import re
 import matplotlib.pyplot as plt
 
-from utils.constants import Constants
-
 
 class GraphPlotter:
-    def __init__(self, x_label, y_label, file_name, x_scale=30, y_scale=6):
-        plt.figure(figsize=(x_scale, y_scale))
+    def __init__(
+            self,
+            x_label,
+            y_label,
+            file_name,
+            dir=None,
+            x_size=30,
+            y_size=6,
+            min_x_axis=1,
+            max_x_axis=1,
+            min_y_axis=1,
+            max_y_axis=1,
+    ):
+        plt.figure(figsize=(x_size, y_size))
         plt.ylabel(y_label)
         plt.xlabel(x_label)
-
         self.formatted_file_name = self.get_formatted_file_name(file_name)
+        self.dir = dir if dir else "results"
 
-    def plot(self, x_values, y_values, label):
+        self.min_x_axis = min_x_axis
+        self.min_y_axis = min_y_axis
+        self.max_x_axis = max_x_axis
+        self.max_y_axis = max_y_axis
+
+    def plot(self, x_values, y_values, label=None):
         plt.plot(x_values, y_values, label=label)
-        plt.axis([Constants.MIN_X_AXIS, Constants.MAX_X_AXIS, Constants.MIN_Y_AXIS, Constants.MAX_Y_AXIS])
+        plt.axis([self.min_x_axis, self.max_x_axis, self.min_y_axis, self.max_y_axis])
         plt.title(self.title)
-        # plt.figtext(0, 0.1, "This is a test log", color="r", fontsize="large")
-        plt.legend()
-        plt.savefig(f"results/{self.formatted_file_name}.png")
+        if label:
+            plt.legend()
+        plt.savefig(f"{self.dir}/{self.formatted_file_name}.png")
 
     def get_formatted_file_name(self, file_name):
         components = file_name.split(".")

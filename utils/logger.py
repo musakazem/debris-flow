@@ -1,5 +1,5 @@
 import numpy as np
-from utils.constants import Constants
+from utils.constants import SensorDataConstants
 
 
 class Logger:
@@ -19,7 +19,7 @@ class Logger:
     @staticmethod
     def log_initial_depth_variance(transposed_data, *args):
         print("----------")
-        print(f"Initial depth value: {Constants.INITIAL_DEPTH}")
+        print(f"Initial depth value: {SensorDataConstants.INITIAL_DEPTH}")
         print("Sensor data variance:")
         sensor_vars = [np.var(transposed_data[i]) for i in range(len(transposed_data))]
         [print(sensor_var) for sensor_var in sensor_vars]
