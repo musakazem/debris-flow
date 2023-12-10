@@ -24,8 +24,9 @@ def run_max_height_script():
         max_x_axis=MaxHeightConstants.MAX_X_AXIS,
         min_y_axis=MaxHeightConstants.MIN_Y_AXIS,
         max_y_axis=MaxHeightConstants.MAX_Y_AXIS,
-        )
+    )
 
     x_coordinates = np.array(MaxHeightConstants.DISTANCES)
-    y_coordinates = data
-    graph.plot(x_coordinates, y_coordinates)
+    graph.plot(x_coordinates, data)
+
+    return data

@@ -34,6 +34,22 @@ class Logger:
         print("----------")
 
     @staticmethod
+    def log_max_gradient_values(time_deltas):
+        print("----------")
+        print("Max gradients:")
+        for time_delta in time_deltas:
+            print(f"time: {time_delta[0]}, gradient: {time_delta[1]}")
+        print("----------")
+
+    @staticmethod
+    def log_velocity_time_data(velocity, time):
+        print("----------")
+        print("Velocity Time:")
+        for v, t in zip(velocity, time):
+            print(f"velocity: {v}, time: {t}")
+        print("----------")
+
+    @staticmethod
     def log_exception(exception):
         print("xxxxxxxxxxxx")
         print(f"Failed to run script: {exception}")

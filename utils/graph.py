@@ -27,12 +27,26 @@ class GraphPlotter:
         self.max_x_axis = max_x_axis
         self.max_y_axis = max_y_axis
 
-    def plot(self, x_values, y_values, label=None):
-        plt.plot(x_values, y_values, label=label)
+    def plot(
+            self,
+            x_values,
+            y_values,
+            label=None,
+            linestyle=None,
+            h_line=None,
+            h_line_configs={},
+            **kwargs
+    ):
+        plt.plot(x_values, y_values, label=label, linestyle=linestyle, **kwargs)
         plt.axis([self.min_x_axis, self.max_x_axis, self.min_y_axis, self.max_y_axis])
         plt.title(self.title)
+
+        if h_line:
+            plt.axhline(y=h_line, **h_line_configs)
+            plt.text(self.min_x_axis + .1, h_line + .1, f'v={h_line}', color='r', va='bottom', ha='left')
         if label:
             plt.legend()
+
         plt.savefig(f"{self.dir}/{self.formatted_file_name}.png")
 
     def get_formatted_file_name(self, file_name):

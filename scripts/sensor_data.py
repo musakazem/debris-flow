@@ -70,3 +70,5 @@ def run_sensor_data_script():
         data=max_height_coordinates,
         path=f"{SensorDataConstants.FILE_ROOT}/max_height/{SensorDataConstants.CSV_FILE}"
     )
+
+    return time, sensor_y_coordinates
