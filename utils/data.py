@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class DataReader:
+class DataManager:
 
     def __init__(self, path, columns, max_rows=1000, skip_header=1) -> None:
         self.path = path
@@ -11,11 +11,10 @@ class DataReader:
 
     def get_data(self, avg_depth=None):
         data = self.convert_to_metre(self.read_data())
-        initial_data = data[0]
         if not avg_depth:
-            return data, initial_data
+            return data
 
-        return self.average_data(data, avg_depth), initial_data
+        return self.average_data(data, avg_depth)
 
     def read_data(self):
         return np.genfromtxt(
@@ -25,6 +24,9 @@ class DataReader:
             max_rows=self.max_rows,
             usecols=self.columns,
         )
+
+    def save_data(self, data, path, header="", delimiter=","):
+        np.savetxt(path, data, delimiter=",", header=header)
 
     @staticmethod
     def average_data(data, avg_depth):

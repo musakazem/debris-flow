@@ -1,5 +1,6 @@
 class Constants:
-    CSV_FILE = "raw/w17.5_s25_fine.csv"
+    FILE_ROOT = "raw"
+    CSV_FILE = "w17.5_s25_fine.csv"
     USE_COLUMNS = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     INITIAL_DEPTH = 100
@@ -13,5 +14,5 @@ class Constants:
     MIN_X_AXIS = 0
     MAX_X_AXIS = 140
 
-    MIN_Y_AXIS = 0
+    MIN_Y_AXIS = -0.03
     MAX_Y_AXIS = 0.10
