@@ -7,7 +7,7 @@ from utils.logger import Logger
 
 
 def get_average_initial_depth(data):
-    transposed_data = np.transpose(data[:SensorDataConstants.INITIAL_DEPTH])
+    transposed_data = np.transpose(data[: SensorDataConstants.INITIAL_DEPTH])
     Logger().log_initial_depth_variance(transposed_data)
 
     data_chunk_average = []
@@ -32,7 +32,7 @@ def run_sensor_data_script():
         location,
         SensorDataConstants.USE_COLUMNS,
         SensorDataConstants.READ_ROWS,
-        skip_header=SensorDataConstants.SKIP_HEADER
+        skip_header=SensorDataConstants.SKIP_HEADER,
     )
 
     data = data_manager.get_data(SensorDataConstants.AVERAGE_DEPTH)
@@ -46,7 +46,10 @@ def run_sensor_data_script():
 
     sensor_y_coordinates = []
     for sensor_number in range(len(transposed_data)):
-        sensor_datum = [initial_depths[sensor_number] - datum[sensor_number] for datum in sensor_data]
+        sensor_datum = [
+            initial_depths[sensor_number] - datum[sensor_number]
+            for datum in sensor_data
+        ]
         sensor_y_coordinates.append(sensor_datum)
 
     max_height_coordinates = get_max_heights(np.array(sensor_y_coordinates))
@@ -63,10 +66,12 @@ def run_sensor_data_script():
 
     sensor_counter = 1
     for sensor_datum in sensor_y_coordinates:
-        graph.plot(time, sensor_datum, f"Sensor {sensor_counter}")
+        graph.plot(time, sensor_datum, f"Sensor {sensor_counter}", save=SensorDataConstants.SAVE_GRAPH)
         sensor_counter += 1
 
     data_manager.save_data(
         data=max_height_coordinates,
-        path=f"{SensorDataConstants.FILE_ROOT}/max_height/{SensorDataConstants.CSV_FILE}"
+        path=f"{SensorDataConstants.FILE_ROOT}/max_height/{SensorDataConstants.CSV_FILE}",
     )
+
+    return time, sensor_y_coordinates

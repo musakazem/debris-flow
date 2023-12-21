@@ -3,7 +3,6 @@ from utils.constants import SensorDataConstants
 
 
 class Logger:
-
     @staticmethod
     def log_raw_data(data):
         print("----------")
@@ -31,6 +30,22 @@ class Logger:
         print("Max heights:")
         for max_height in max_heights:
             print(f"x: {max_height[0]}, y: {max_height[1]}")
+        print("----------")
+
+    @staticmethod
+    def log_max_gradient_values(time_deltas):
+        print("----------")
+        print("Max gradients:")
+        for time_delta in time_deltas:
+            print(f"time: {time_delta[0]}, gradient: {time_delta[1]}")
+        print("----------")
+
+    @staticmethod
+    def log_velocity_time_data(velocity, time):
+        print("----------")
+        print("Velocity and delta time:")
+        for v, t in zip(velocity, time):
+            print(f"velocity: {v}, time: {t}")
         print("----------")
 
     @staticmethod
