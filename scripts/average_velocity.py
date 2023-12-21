@@ -17,7 +17,7 @@ def run_average_velocity_script(time, sensor_heights, max_heights):
 
     delta_x = []
     for i, x in enumerate(AverageVelocityConstants.DISTANCES):
-        if i+1 < len(AverageVelocityConstants.DISTANCES):
+        if i + 1 < len(AverageVelocityConstants.DISTANCES):
             next_value = AverageVelocityConstants.DISTANCES[i + 1]
             value = next_value - x
             delta_x.append(value)
@@ -34,17 +34,18 @@ def run_average_velocity_script(time, sensor_heights, max_heights):
         max_y_axis=AverageVelocityConstants.MAX_Y_AXIS,
     )
 
-    velocity = np.array(delta_x)/np.array(delta_times)
+    velocity = np.array(delta_x) / np.array(delta_times)
     x_coordinates = np.array(AverageVelocityConstants.DISTANCES[1:])
     average_velocity = np.round(np.mean(velocity), decimals=2)
     Logger().log_velocity_time_data(velocity, delta_times)
     graph.plot(
         x_coordinates,
         velocity,
+        linestyle=AverageVelocityConstants.LINE_STYLE,
         h_line=average_velocity,
         h_line_configs=AverageVelocityConstants.H_MARK,
-        linestyle=AverageVelocityConstants.LINE_STYLE,
-        **AverageVelocityConstants.MARKER
+        marker_configs=AverageVelocityConstants.MARKER,
+        x_ticks=AverageVelocityConstants.DISTANCES
     )
 
 
@@ -58,7 +59,6 @@ def get_max_gradient_times(gradients, time):
 
 
 def get_sensor_gradients(time, sensor_heights):
-    gradient_time_range = {"min_time": 20, "max_time": 60}
     gradients = []
     truncated_times = []
     for sensor in sensor_heights:
@@ -66,11 +66,14 @@ def get_sensor_gradients(time, sensor_heights):
         sensor_gradients = []
         truncated_time = []
         for index, time_sensor_datum in enumerate(time_sensor_data):
-            if time_sensor_datum[0] < gradient_time_range["min_time"] or time_sensor_datum[0] > gradient_time_range["max_time"]:  # noqa
+            if (
+                time_sensor_datum[0] < AverageVelocityConstants.GRADIENT_MIN_X
+                or time_sensor_datum[0] > AverageVelocityConstants.GRADIENT_MAX_X
+            ):
                 continue
             truncated_time.append(time_sensor_datum[0])
             try:
-                next_datum = time_sensor_data[index+1]
+                next_datum = time_sensor_data[index + 1]
             except Exception:
                 break
             gradient = slope(time_sensor_datum, next_datum)
@@ -84,4 +87,4 @@ def get_sensor_gradients(time, sensor_heights):
 
 
 def slope(point_a, point_b):
-    return (point_b[1]-point_a[1])/(point_b[0]-point_a[0])
+    return (point_b[1] - point_a[1]) / (point_b[0] - point_a[0])

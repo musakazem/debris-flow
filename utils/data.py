@@ -2,8 +2,9 @@ import numpy as np
 
 
 class DataManager:
-
-    def __init__(self, path, columns, max_rows=1000, skip_header=0, metre_conversion=True):
+    def __init__(
+        self, path, columns, max_rows=1000, skip_header=0, metre_conversion=True
+    ):
         self.path = path
         self.columns = columns
         self.max_rows = max_rows
@@ -23,7 +24,7 @@ class DataManager:
     def read_data(self):
         return np.genfromtxt(
             self.path,
-            delimiter=',',
+            delimiter=",",
             skip_header=self.skip_header,
             max_rows=self.max_rows,
             usecols=self.columns,
@@ -37,7 +38,7 @@ class DataManager:
         total_average = []
 
         for i in range(0, len(data), avg_depth):
-            chunk = data[i:i+avg_depth]
+            chunk = data[i: i + avg_depth]
             chunk_avg = np.mean(chunk, axis=0)
             total_average.append(chunk_avg)
 

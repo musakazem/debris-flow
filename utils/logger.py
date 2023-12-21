@@ -3,7 +3,6 @@ from utils.constants import SensorDataConstants
 
 
 class Logger:
-
     @staticmethod
     def log_raw_data(data):
         print("----------")
@@ -44,7 +43,7 @@ class Logger:
     @staticmethod
     def log_velocity_time_data(velocity, time):
         print("----------")
-        print("Velocity Time:")
+        print("Velocity and delta time:")
         for v, t in zip(velocity, time):
             print(f"velocity: {v}, time: {t}")
         print("----------")
