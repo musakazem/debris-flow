@@ -1,6 +1,6 @@
 class BaseConstants:
     FILE_ROOT = "raw"
-    CSV_FILE = "w17.5_s25_coarse.csv"
+    CSV_FILE = "w20_s20_fine.csv"
 
     # Graph configs
     SAVE_GRAPH = True
@@ -10,7 +10,7 @@ class BaseConstants:
     MIN_X_AXIS = 0
     MAX_X_AXIS = 140
 
-    MIN_Y_AXIS = -0.03
+    MIN_Y_AXIS = 0.0
     MAX_Y_AXIS = 0.10
 
     LINE_STYLE = None
@@ -70,8 +70,8 @@ class AverageVelocityConstants(BaseConstants):
     ENABLED = True
     DISTANCES = [0.1, 1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1]
 
-    GRADIENT_MIN_X = 40
-    GRADIENT_MAX_X = 50
+    GRADIENT_MIN_X = 20
+    GRADIENT_MAX_X = 40
 
     # Graph configs
     X_AXIS_LABEL = "x (m)"
@@ -82,3 +82,8 @@ class AverageVelocityConstants(BaseConstants):
     MAX_X_AXIS = 8.6
     MIN_X_AXIS = 0.6
     LINE_STYLE = "dashdot"
+
+    H_MARK = {
+        "main": {"color": "r", "linestyle": "dashed", "label": "Average"},
+        "extra": {"text_pos_x": 0.0, "text_pos_y": 0.01}
+    }

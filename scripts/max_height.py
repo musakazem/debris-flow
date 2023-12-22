@@ -27,7 +27,7 @@ def run_max_height_script():
         min_y_axis=MaxHeightConstants.MIN_Y_AXIS,
         max_y_axis=MaxHeightConstants.MAX_Y_AXIS,
     )
-    average_height = np.round(np.mean(data), decimals=2)
+    average_height = np.round(np.mean(data), decimals=3)
     x_coordinates = np.array(MaxHeightConstants.DISTANCES)
     graph.plot(
         x_coordinates,

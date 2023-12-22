@@ -36,7 +36,7 @@ def run_average_velocity_script(time, sensor_heights, max_heights):
 
     velocity = np.array(delta_x) / np.array(delta_times)
     x_coordinates = np.array(AverageVelocityConstants.DISTANCES[1:])
-    average_velocity = np.round(np.mean(velocity), decimals=2)
+    average_velocity = np.round(np.mean(velocity), decimals=3)
     Logger().log_velocity_time_data(velocity, delta_times)
     graph.plot(
         x_coordinates,

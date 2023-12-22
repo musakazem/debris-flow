@@ -73,7 +73,7 @@ class GraphPlotter:
         plt.text(
             text_pos_x,
             text_pos_y,
-            f"v={h_line}",
+            f"average={h_line}",
             color="r",
             va="bottom",
             ha="left",
