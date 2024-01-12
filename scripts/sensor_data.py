@@ -2,7 +2,7 @@ import numpy as np
 
 from utils.data import DataManager
 from utils.graph import GraphPlotter
-from utils.constants import SensorDataConstants
+from utils.constants import SensorDataConstants, TankSensorConstants
 from utils.logger import Logger
 
 
@@ -52,7 +52,9 @@ def run_sensor_data_script():
         ]
         sensor_y_coordinates.append(sensor_datum)
 
-    max_height_coordinates = get_max_heights(np.array(sensor_y_coordinates))
+    max_height_coordinates = get_max_heights(
+        np.array(sensor_y_coordinates)
+    )  # TODO: This probably should'nt be here
     Logger().log_max_height(max_height_coordinates)
     graph = GraphPlotter(
         SensorDataConstants.X_AXIS_LABEL,
@@ -66,7 +68,14 @@ def run_sensor_data_script():
 
     sensor_counter = 1
     for sensor_datum in sensor_y_coordinates:
-        graph.plot(time, sensor_datum, f"Sensor {sensor_counter}", save=SensorDataConstants.SAVE_GRAPH)
+        graph.plot(
+            time,
+            sensor_datum,
+            f"Sensor {sensor_counter}",
+            save=SensorDataConstants.SAVE_GRAPH,
+            # x_ticks=SensorDataConstants.DISTANCES,
+            grid=True,
+        )
         sensor_counter += 1
 
     data_manager.save_data(
@@ -75,3 +84,39 @@ def run_sensor_data_script():
     )
 
     return time, sensor_y_coordinates
+
+
+def run_tank_sensor_data_script():
+    location = f"{SensorDataConstants.FILE_ROOT}/{SensorDataConstants.CSV_FILE}"
+    data_manager = DataManager(
+        location,
+        TankSensorConstants.USE_COLUMNS,
+        TankSensorConstants.READ_ROWS,
+        skip_header=TankSensorConstants.SKIP_HEADER,
+    )
+    data = data_manager.get_data(TankSensorConstants.AVERAGE_DEPTH)
+
+    time = [datum[0] for datum in data]
+    sensor_data = np.delete(data, 0, axis=1)
+    initial_depths = get_average_initial_depth(sensor_data)
+
+    sensor_data = [initial_depths[0] - datum[0] for datum in sensor_data]
+
+    graph = GraphPlotter(
+        TankSensorConstants.X_AXIS_LABEL,
+        TankSensorConstants.Y_AXIS_LABEL,
+        location.split("/")[1],
+        "results/tank_data",
+        min_x_axis=TankSensorConstants.MIN_X_AXIS,
+        max_x_axis=TankSensorConstants.MAX_X_AXIS,
+        min_y_axis=TankSensorConstants.MIN_Y_AXIS,
+        max_y_axis=TankSensorConstants.MAX_Y_AXIS,
+    )
+
+    graph.plot(
+        time,
+        sensor_data,
+        save=TankSensorConstants.SAVE_GRAPH,
+        # x_ticks=TankSensorConstants.DISTANCES,
+        grid=True,
+    )

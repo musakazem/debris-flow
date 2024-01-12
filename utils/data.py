@@ -13,6 +13,7 @@ class DataManager:
 
     def get_data(self, avg_depth=None):
         data = self.read_data()
+
         if self.metre_conversion:
             data = self.convert_to_metre(data)
 

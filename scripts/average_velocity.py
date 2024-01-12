@@ -38,6 +38,7 @@ def run_average_velocity_script(time, sensor_heights, max_heights):
     x_coordinates = np.array(AverageVelocityConstants.DISTANCES[1:])
     average_velocity = np.round(np.mean(velocity), decimals=3)
     Logger().log_velocity_time_data(velocity, delta_times)
+
     graph.plot(
         x_coordinates,
         velocity,
@@ -45,8 +46,11 @@ def run_average_velocity_script(time, sensor_heights, max_heights):
         h_line=average_velocity,
         h_line_configs=AverageVelocityConstants.H_MARK,
         marker_configs=AverageVelocityConstants.MARKER,
-        x_ticks=AverageVelocityConstants.DISTANCES
+        x_ticks=AverageVelocityConstants.DISTANCES,
+        grid=True,
     )
+
+    return velocity
 
 
 def get_max_gradient_times(gradients, time):
@@ -61,14 +65,16 @@ def get_max_gradient_times(gradients, time):
 def get_sensor_gradients(time, sensor_heights):
     gradients = []
     truncated_times = []
+    gradient_value_constraints = AverageVelocityConstants().gradient_values
+
     for sensor in sensor_heights:
         time_sensor_data = np.column_stack((time, sensor))
         sensor_gradients = []
         truncated_time = []
         for index, time_sensor_datum in enumerate(time_sensor_data):
             if (
-                time_sensor_datum[0] < AverageVelocityConstants.GRADIENT_MIN_X
-                or time_sensor_datum[0] > AverageVelocityConstants.GRADIENT_MAX_X
+                time_sensor_datum[0] < gradient_value_constraints["GRADIENT_MIN_X"]
+                or time_sensor_datum[0] > gradient_value_constraints["GRADIENT_MAX_X"]
             ):
                 continue
             truncated_time.append(time_sensor_datum[0])
@@ -82,7 +88,6 @@ def get_sensor_gradients(time, sensor_heights):
 
         if not truncated_times:
             truncated_times.extend(truncated_time)
-
     return gradients, truncated_times
 
 

@@ -1,6 +1,9 @@
+import numpy as np
+
+
 class BaseConstants:
     FILE_ROOT = "raw"
-    CSV_FILE = "w20_s20_fine.csv"
+    CSV_FILE = "w17.5_s20_coarse.csv"
 
     # Graph configs
     SAVE_GRAPH = True
@@ -25,8 +28,17 @@ class BaseConstants:
 
     H_MARK = {
         "main": {"color": "r", "linestyle": "dashed", "label": "Average"},
-        "extra": {"text_pos_x": 0.1, "text_pos_y": 0}
+        "extra": {"text_pos_x": 0.1, "text_pos_y": 0},
     }
+
+    @property
+    def gradient_values(self):
+        data = np.genfromtxt(f"raw/{self.CSV_FILE}", usecols=[9, 10], delimiter=",")
+
+        return {
+            "GRADIENT_MIN_X": data[9, 0],
+            "GRADIENT_MAX_X": data[9, 1],
+        }
 
 
 class SensorDataConstants(BaseConstants):
@@ -34,8 +46,20 @@ class SensorDataConstants(BaseConstants):
 
     INITIAL_DEPTH = 100
     AVERAGE_DEPTH = 10
-    SKIP_HEADER = 43
+    SKIP_HEADER = 43  # 43 or 37
     READ_ROWS = 27000
+
+
+class TankSensorConstants(BaseConstants):
+    USE_COLUMNS = [0, 1]
+
+    INITIAL_DEPTH = 100
+    AVERAGE_DEPTH = None
+    SKIP_HEADER = 43  # 43 or 37
+    READ_ROWS = 27000
+
+    MIN_Y_AXIS = -0.30
+    MAX_Y_AXIS = 0.0
 
 
 class MaxHeightConstants(BaseConstants):
@@ -62,7 +86,7 @@ class MaxHeightConstants(BaseConstants):
 
     H_MARK = {
         "main": {"color": "r", "linestyle": "dashed", "label": "Average"},
-        "extra": {"text_pos_x": 0.1, "text_pos_y": 0.01}
+        "extra": {"text_pos_x": 0.1, "text_pos_y": 0.01},
     }
 
 
@@ -71,7 +95,7 @@ class AverageVelocityConstants(BaseConstants):
     DISTANCES = [0.1, 1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1]
 
     GRADIENT_MIN_X = 20
-    GRADIENT_MAX_X = 40
+    GRADIENT_MAX_X = 30
 
     # Graph configs
     X_AXIS_LABEL = "x (m)"
@@ -85,5 +109,23 @@ class AverageVelocityConstants(BaseConstants):
 
     H_MARK = {
         "main": {"color": "r", "linestyle": "dashed", "label": "Average"},
-        "extra": {"text_pos_x": 0.0, "text_pos_y": 0.01}
+        "extra": {"text_pos_x": 0.0, "text_pos_y": 0.01},
+    }
+
+
+class ParallelVelocitySumConstants(BaseConstants):
+    DISTANCES = [1.6, 2.6, 3.6, 4.6, 5.6, 6.6, 7.6]
+
+    Y_AXIS_LABEL = "V - initial (m)"
+
+    MAX_Y_AXIS = 3
+    MIN_Y_AXIS = 0
+    MAX_X_AXIS = 8.6
+    MIN_X_AXIS = 0.6
+
+    LINE_STYLE = "dashdot"
+
+    H_MARK = {
+        "main": {"color": "r", "linestyle": "dashed", "label": "Average"},
+        "extra": {"text_pos_x": 0.0, "text_pos_y": 0.01},
     }

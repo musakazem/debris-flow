@@ -40,12 +40,20 @@ class GraphPlotter:
         marker_configs={},
         x_ticks=[],
         save=True,
+        grid=False,
         **kwargs,
     ):
         if not save:
             return
 
-        plt.plot(x_values, y_values, label=label, linestyle=linestyle, **marker_configs, **kwargs)
+        plt.plot(
+            x_values,
+            y_values,
+            label=label,
+            linestyle=linestyle,
+            **marker_configs,
+            **kwargs,
+        )
         plt.axis([self.min_x_axis, self.max_x_axis, self.min_y_axis, self.max_y_axis])
         plt.title(self.title)
 
@@ -57,6 +65,11 @@ class GraphPlotter:
 
         if label:
             plt.legend()
+
+        if grid:
+            plt.grid(
+                which="major", linestyle="solid", linewidth=0.5, color="gray", alpha=0.5
+            )
 
         plt.savefig(f"{self.dir}/{self.formatted_file_name}.png")
 
