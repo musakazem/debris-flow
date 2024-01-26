@@ -37,6 +37,7 @@ def run_max_height_script():
         h_line_configs=MaxHeightConstants.H_MARK,
         marker_configs=MaxHeightConstants.MARKER,
         x_ticks=MaxHeightConstants.DISTANCES,
+        grid=True,
     )
 
     return data

@@ -1,4 +1,4 @@
-# Debris-flow Experiment
+# Debris-flow Experiments
 
 ## Python version
 v 3.11
