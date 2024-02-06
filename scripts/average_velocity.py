@@ -1,12 +1,17 @@
 import numpy as np
 
+from typing import Dict
+
 from utils.constants import AverageVelocityConstants
+
 from utils.graph import GraphPlotter
 from utils.logger import Logger
 
 
-def run_average_velocity_script(time, sensor_heights, max_heights):
-    gradients, truncated_time = get_sensor_gradients(time, sensor_heights)
+def run_average_velocity_script(time, sensor_heights, gradient_calc_range: Dict):
+    gradients, truncated_time = get_sensor_gradients(
+        time, sensor_heights, gradient_calc_range
+    )
     max_times = get_max_gradient_times(gradients, truncated_time)
 
     delta_times = []
@@ -62,10 +67,9 @@ def get_max_gradient_times(gradients, time):
     return max_gradients
 
 
-def get_sensor_gradients(time, sensor_heights):
+def get_sensor_gradients(time, sensor_heights, gradient_calc_range):
     gradients = []
     truncated_times = []
-    gradient_value_constraints = AverageVelocityConstants().gradient_values
 
     for sensor in sensor_heights:
         time_sensor_data = np.column_stack((time, sensor))
@@ -73,10 +77,11 @@ def get_sensor_gradients(time, sensor_heights):
         truncated_time = []
         for index, time_sensor_datum in enumerate(time_sensor_data):
             if (
-                time_sensor_datum[0] < gradient_value_constraints["GRADIENT_MIN_X"]
-                or time_sensor_datum[0] > gradient_value_constraints["GRADIENT_MAX_X"]
+                time_sensor_datum[0] < gradient_calc_range["GRADIENT_MIN_X"]
+                or time_sensor_datum[0] > gradient_calc_range["GRADIENT_MAX_X"]
             ):
                 continue
+
             truncated_time.append(time_sensor_datum[0])
             try:
                 next_datum = time_sensor_data[index + 1]

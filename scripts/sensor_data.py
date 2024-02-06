@@ -26,7 +26,11 @@ def get_max_heights(h_values):
     return max_values
 
 
-def run_sensor_data_script():
+def run_sensor_data_script(
+    initial_depth: int = SensorDataConstants.INITIAL_DEPTH,
+    data_depth: int = SensorDataConstants.AVERAGE_DEPTH,
+    save_graph: bool = True,
+):
     location = f"{SensorDataConstants.FILE_ROOT}/{SensorDataConstants.CSV_FILE}"
     data_manager = DataManager(
         location,
@@ -35,7 +39,7 @@ def run_sensor_data_script():
         skip_header=SensorDataConstants.SKIP_HEADER,
     )
 
-    data = data_manager.get_data(SensorDataConstants.AVERAGE_DEPTH)
+    data = data_manager.get_data(data_depth)
     Logger().log_raw_data(data)
     Logger().log_data_points(data)
 
@@ -59,7 +63,7 @@ def run_sensor_data_script():
     graph = GraphPlotter(
         SensorDataConstants.X_AXIS_LABEL,
         SensorDataConstants.Y_AXIS_LABEL,
-        location.split("/")[1],
+        SensorDataConstants.CSV_FILE,
         min_x_axis=SensorDataConstants.MIN_X_AXIS,
         max_x_axis=SensorDataConstants.MAX_X_AXIS,
         min_y_axis=SensorDataConstants.MIN_Y_AXIS,
@@ -72,7 +76,7 @@ def run_sensor_data_script():
             time,
             sensor_datum,
             f"Sensor {sensor_counter}",
-            save=SensorDataConstants.SAVE_GRAPH,
+            save=save_graph,
             # x_ticks=SensorDataConstants.DISTANCES,
             grid=True,
         )
@@ -105,7 +109,7 @@ def run_tank_sensor_data_script():
     graph = GraphPlotter(
         TankSensorConstants.X_AXIS_LABEL,
         TankSensorConstants.Y_AXIS_LABEL,
-        location.split("/")[1],
+        TankSensorConstants.CSV_FILE,
         "results/tank_data",
         min_x_axis=TankSensorConstants.MIN_X_AXIS,
         max_x_axis=TankSensorConstants.MAX_X_AXIS,
