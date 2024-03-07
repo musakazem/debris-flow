@@ -1,9 +1,9 @@
-import numpy as np
+# import numpy as np
 
 
 class BaseConstants:
-    FILE_ROOT = "raw"
-    CSV_FILE = "w17.5_s20_coarse.csv"
+    FILE_ROOT = "raw/samuel_kaufmann/attempt_2"
+    CSV_FILE = "w20_s25_coarse.csv"
 
     # Graph configs
     SAVE_GRAPH = True
@@ -31,14 +31,14 @@ class BaseConstants:
         "extra": {"text_pos_x": 0.1, "text_pos_y": 0},
     }
 
-    @property
-    def gradient_values(self):
-        data = np.genfromtxt(f"raw/{self.CSV_FILE}", usecols=[9, 10], delimiter=",")
+    # @property
+    # def gradient_values(self):
+    #     data = np.genfromtxt(f"raw/{self.CSV_FILE}", usecols=[9, 10], delimiter=",")
 
-        return {
-            "GRADIENT_MIN_X": data[9, 0],
-            "GRADIENT_MAX_X": data[9, 1],
-        }
+    #     return {
+    #         "GRADIENT_MIN_X": data[9, 0],
+    #         "GRADIENT_MAX_X": data[9, 1],
+    #     }
 
 
 class SensorDataConstants(BaseConstants):
@@ -48,6 +48,8 @@ class SensorDataConstants(BaseConstants):
     AVERAGE_DEPTH = 10
     SKIP_HEADER = 43  # 43 or 37
     READ_ROWS = 27000
+
+    GRACE_RANGE = 5
 
 
 class TankSensorConstants(BaseConstants):
@@ -103,8 +105,8 @@ class AverageVelocityConstants(BaseConstants):
 
     MAX_Y_AXIS = 3
     MIN_Y_AXIS = 0
-    MAX_X_AXIS = 8.6
-    MIN_X_AXIS = 0.6
+    MAX_X_AXIS = 9
+    MIN_X_AXIS = 0
     LINE_STYLE = "dashdot"
 
     H_MARK = {
@@ -120,8 +122,8 @@ class ParallelVelocitySumConstants(BaseConstants):
 
     MAX_Y_AXIS = 3
     MIN_Y_AXIS = 0
-    MAX_X_AXIS = 8.6
-    MIN_X_AXIS = 0.6
+    MAX_X_AXIS = 9
+    MIN_X_AXIS = 0
 
     LINE_STYLE = "dashdot"
 

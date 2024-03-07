@@ -1,5 +1,6 @@
 import numpy as np
 from utils.constants import SensorDataConstants
+from datetime import datetime
 
 
 class Logger:
@@ -52,3 +53,8 @@ class Logger:
     def log_exception(exception):
         print("xxxxxxxxxxxx")
         print(f"Failed to run script: {exception}")
+
+    @staticmethod
+    def log(message):
+        indicator = "--------->"
+        print(f"{indicator}{datetime.now()} - {message}")

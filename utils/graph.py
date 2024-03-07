@@ -8,7 +8,7 @@ class GraphPlotter:
         x_label,
         y_label,
         file_name,
-        dir=None,
+        save_directory=None,
         x_size=30,
         y_size=6,
         min_x_axis=1,
@@ -20,7 +20,7 @@ class GraphPlotter:
         plt.ylabel(y_label)
         plt.xlabel(x_label)
         self.formatted_file_name = self.get_formatted_file_name(file_name)
-        self.dir = dir if dir else "results"
+        self.save_directory = save_directory if save_directory else "results"
 
         self.plot_methods = []
 
@@ -71,7 +71,7 @@ class GraphPlotter:
                 which="major", linestyle="solid", linewidth=0.5, color="gray", alpha=0.5
             )
 
-        plt.savefig(f"{self.dir}/{self.formatted_file_name}.png")
+        plt.savefig(f"{self.save_directory}/{self.formatted_file_name}.png")
 
     def get_formatted_file_name(self, file_name):
         components = file_name.split(".")

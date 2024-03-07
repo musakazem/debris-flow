@@ -20,7 +20,7 @@ def run_max_height_script():
     graph = GraphPlotter(
         MaxHeightConstants.X_AXIS_LABEL,
         MaxHeightConstants.Y_AXIS_LABEL,
-        location.split("/")[2],
+        MaxHeightConstants.CSV_FILE,
         "results/max_height",
         min_x_axis=MaxHeightConstants.MIN_X_AXIS,
         max_x_axis=MaxHeightConstants.MAX_X_AXIS,
