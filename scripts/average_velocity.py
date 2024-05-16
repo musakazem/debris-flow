@@ -1,6 +1,6 @@
 import numpy as np
 
-from typing import Dict
+from typing import List
 
 from utils.constants import AverageVelocityConstants
 
@@ -8,17 +8,12 @@ from utils.graph import GraphPlotter
 from utils.logger import Logger
 
 
-def run_average_velocity_script(time, sensor_heights, gradient_calc_range: Dict):
-    gradients, truncated_time = get_sensor_gradients(
-        time, sensor_heights, gradient_calc_range
-    )
-    max_times = get_max_gradient_times(gradients, truncated_time)
-
+def run_average_velocity_script(max_times: List):
     delta_times = []
-    for i, t in enumerate(max_times):
-        if i + 1 < len(max_times):
-            next_value = max_times[i + 1]
-            delta_times.append(next_value[0] - t[0])
+    for index, time in enumerate(max_times):
+        if index + 1 < len(max_times):
+            next_value = max_times[index + 1]
+            delta_times.append(next_value - time)
 
     delta_x = []
     for i, x in enumerate(AverageVelocityConstants.DISTANCES):
@@ -26,7 +21,6 @@ def run_average_velocity_script(time, sensor_heights, gradient_calc_range: Dict)
             next_value = AverageVelocityConstants.DISTANCES[i + 1]
             value = next_value - x
             delta_x.append(value)
-    Logger().log_max_gradient_values(max_times)
 
     graph = GraphPlotter(
         AverageVelocityConstants.X_AXIS_LABEL,
@@ -56,45 +50,3 @@ def run_average_velocity_script(time, sensor_heights, gradient_calc_range: Dict)
     )
 
     return velocity
-
-
-def get_max_gradient_times(gradients, time):
-    max_gradients = []
-    for gradient in gradients:
-        max_gradient = np.max(gradient)
-        max_gradient_indx = np.argmax(gradient)
-        max_gradients.append([time[max_gradient_indx], max_gradient])
-    return max_gradients
-
-
-def get_sensor_gradients(time, sensor_heights, gradient_calc_range):
-    gradients = []
-    truncated_times = []
-
-    for sensor in sensor_heights:
-        time_sensor_data = np.column_stack((time, sensor))
-        sensor_gradients = []
-        truncated_time = []
-        for index, time_sensor_datum in enumerate(time_sensor_data):
-            if (
-                time_sensor_datum[0] < gradient_calc_range["GRADIENT_MIN_X"]
-                or time_sensor_datum[0] > gradient_calc_range["GRADIENT_MAX_X"]
-            ):
-                continue
-
-            truncated_time.append(time_sensor_datum[0])
-            try:
-                next_datum = time_sensor_data[index + 1]
-            except Exception:
-                break
-            gradient = slope(time_sensor_datum, next_datum)
-            sensor_gradients.append(gradient)
-        gradients.append(sensor_gradients)
-
-        if not truncated_times:
-            truncated_times.extend(truncated_time)
-    return gradients, truncated_times
-
-
-def slope(point_a, point_b):
-    return (point_b[1] - point_a[1]) / (point_b[0] - point_a[0])

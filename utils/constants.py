@@ -2,8 +2,8 @@
 
 
 class BaseConstants:
-    FILE_ROOT = "raw/samuel_kaufmann/attempt_2"
-    CSV_FILE = "w20_s25_coarse.csv"
+    FILE_ROOT = "raw/attempt_2"
+    CSV_FILE = "w17.5_s20_coarse.csv"
 
     # Graph configs
     SAVE_GRAPH = True
@@ -30,15 +30,6 @@ class BaseConstants:
         "main": {"color": "r", "linestyle": "dashed", "label": "Average"},
         "extra": {"text_pos_x": 0.1, "text_pos_y": 0},
     }
-
-    # @property
-    # def gradient_values(self):
-    #     data = np.genfromtxt(f"raw/{self.CSV_FILE}", usecols=[9, 10], delimiter=",")
-
-    #     return {
-    #         "GRADIENT_MIN_X": data[9, 0],
-    #         "GRADIENT_MAX_X": data[9, 1],
-    #     }
 
 
 class SensorDataConstants(BaseConstants):
