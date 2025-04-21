@@ -9,8 +9,8 @@ v 3.11
     ```bash
     pip install -r requirements.txt
     ```
- - Define the configs inside `utis/constants.py` file.
- - To read data from teh raw files and create their corresponding charts run the `main.py` file.
+ - Define the configs inside `utils/constants.py` file.
+ - To read data from the raw files and create their corresponding charts run the `main.py` file.
     ```python
     python main.py
     ```
